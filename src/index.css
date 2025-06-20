@@ -11,6 +11,13 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --primary-blue: #1565C0;
+  --primary-orange: #FF8F00;
+  --primary-green: #7CB342;
+  --gradient-hero: linear-gradient(135deg, #2979FF 40%, #8BC34A 100%);
+  --radius-md: 8px;
+  --radius-lg: 12px;
 }
 
 a {

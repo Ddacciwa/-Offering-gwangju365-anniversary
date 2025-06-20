@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from '../services/auth';
 import Button from '../components/common/Button';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import logo from '../assets/logo.png';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -83,61 +84,7 @@ const Signup = () => {
             <div className="card anniversary-card">
               <div className="card-body p-4 p-md-5">
                 <div className="text-center mb-4">
-                  {/* 광주365 로고 */}
-                  <div className="d-inline-flex align-items-center justify-content-center mb-3" style={{
-                    background: '#1565C0',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    fontSize: '1.5rem',
-                    width: '80px',
-                    height: '80px',
-                    borderRadius: '16px',
-                    position: 'relative',
-                    boxShadow: '0 4px 12px rgba(21, 101, 192, 0.3)'
-                  }}>
-                    <div style={{
-                      position: 'relative',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: '100%',
-                      height: '100%'
-                    }}>
-                      <span style={{
-                        position: 'relative',
-                        zIndex: 2,
-                        fontSize: '1.2rem',
-                        fontWeight: 'bold'
-                      }}>365</span>
-                      <div style={{
-                        position: 'absolute',
-                        top: '12px',
-                        right: '12px',
-                        width: '10px',
-                        height: '10px',
-                        borderRadius: '50%',
-                        background: '#FF8F00'
-                      }} />
-                      <div style={{
-                        position: 'absolute',
-                        top: '12px',
-                        left: '12px',
-                        width: '10px',
-                        height: '10px',
-                        borderRadius: '50%',
-                        background: '#7CB342'
-                      }} />
-                      <div style={{
-                        position: 'absolute',
-                        bottom: '12px',
-                        right: '12px',
-                        width: '10px',
-                        height: '10px',
-                        borderRadius: '50%',
-                        background: '#E0E0E0'
-                      }} />
-                    </div>
-                  </div>
+                  <img src={logo} alt="365 로고" style={{ width: '120px', height: 'auto', marginBottom: '1.5rem' }} />
                   <h2 className="mb-2">회원가입</h2>
                   <p className="text-muted mb-0">10주년 기념 프로젝트에 참여하세요</p>
                 </div>
@@ -271,10 +218,10 @@ const Signup = () => {
                   </div>
                 </form>
 
-                <div className="text-center mt-3">
+                <div className="text-center mt-4">
                   <p className="mb-0 text-muted">
                     이미 계정이 있으신가요?{' '}
-                    <Link to="/login" className="fw-medium" style={{ color: 'var(--primary-blue)' }}>
+                    <Link to="/login" className="fw-medium" style={{ color: 'var(--primary-orange)' }}>
                       로그인
                     </Link>
                   </p>
