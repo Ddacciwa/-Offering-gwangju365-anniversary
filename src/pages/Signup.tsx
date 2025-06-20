@@ -18,7 +18,7 @@ const Signup = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -75,36 +75,68 @@ const Signup = () => {
     }
   };
 
-  const departments = [
-    '선택하세요',
-    '의무팀',
-    '간호팀', 
-    '물리치료팀',
-    '작업치료팀',
-    '언어치료팀',
-    '사회복지팀',
-    '원무팀',
-    '행정팀',
-    '기타'
-  ];
-
   return (
-    <div className="min-vh-100 d-flex align-items-center py-5" style={{ background: 'var(--gradient-hero)' }}>
+    <div className="min-vh-100 d-flex align-items-center py-4" style={{ background: 'var(--gradient-hero)' }}>
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-md-8 col-lg-6">
+          <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div className="card anniversary-card">
-              <div className="card-body p-5">
+              <div className="card-body p-4">
                 <div className="text-center mb-4">
-                  <div className="logo-anniversary d-inline-flex align-items-center justify-content-center mb-3" style={{ 
-                    background: 'var(--gradient-primary)',
+                  {/* 광주365 로고 */}
+                  <div className="d-inline-flex align-items-center justify-content-center mb-3" style={{
+                    background: '#1565C0',
                     color: 'white',
                     fontWeight: 'bold',
                     fontSize: '1.5rem',
                     width: '80px',
-                    height: '80px'
+                    height: '80px',
+                    borderRadius: '16px',
+                    position: 'relative',
+                    boxShadow: '0 4px 12px rgba(21, 101, 192, 0.3)'
                   }}>
-                    365
+                    <div style={{
+                      position: 'relative',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      height: '100%'
+                    }}>
+                      <span style={{
+                        position: 'relative',
+                        zIndex: 2,
+                        fontSize: '1.2rem',
+                        fontWeight: 'bold'
+                      }}>365</span>
+                      <div style={{
+                        position: 'absolute',
+                        top: '12px',
+                        right: '12px',
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        background: '#FF8F00'
+                      }} />
+                      <div style={{
+                        position: 'absolute',
+                        top: '12px',
+                        left: '12px',
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        background: '#7CB342'
+                      }} />
+                      <div style={{
+                        position: 'absolute',
+                        bottom: '12px',
+                        right: '12px',
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        background: '#E0E0E0'
+                      }} />
+                    </div>
                   </div>
                   <h2 className="mb-2">회원가입</h2>
                   <p className="text-muted">10주년 기념 프로젝트에 참여하세요</p>
@@ -129,7 +161,6 @@ const Signup = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="실명을 입력하세요"
                         required
                         disabled={loading}
                         style={{ borderRadius: 'var(--radius-md)' }}
@@ -140,8 +171,9 @@ const Signup = () => {
                       <label htmlFor="department" className="form-label fw-medium">
                         부서 <span className="text-danger">*</span>
                       </label>
-                      <select
-                        className="form-select"
+                      <input
+                        type="text"
+                        className="form-control"
                         id="department"
                         name="department"
                         value={formData.department}
@@ -149,13 +181,7 @@ const Signup = () => {
                         required
                         disabled={loading}
                         style={{ borderRadius: 'var(--radius-md)' }}
-                      >
-                        {departments.map((dept, index) => (
-                          <option key={index} value={index === 0 ? '' : dept}>
-                            {dept}
-                          </option>
-                        ))}
-                      </select>
+                      />
                     </div>
                   </div>
 
@@ -170,7 +196,6 @@ const Signup = () => {
                       name="position"
                       value={formData.position}
                       onChange={handleInputChange}
-                      placeholder="예: 수간호사, 팀장, 대리 등"
                       disabled={loading}
                       style={{ borderRadius: 'var(--radius-md)' }}
                     />
@@ -187,7 +212,6 @@ const Signup = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      placeholder="example@email.com"
                       required
                       disabled={loading}
                       style={{ borderRadius: 'var(--radius-md)' }}
@@ -195,7 +219,7 @@ const Signup = () => {
                   </div>
 
                   <div className="row">
-                    <div className="col-md-6 mb-3">
+                    <div className="col-md-6 mb-4">
                       <label htmlFor="password" className="form-label fw-medium">
                         비밀번호 <span className="text-danger">*</span>
                       </label>
@@ -206,7 +230,6 @@ const Signup = () => {
                         name="password"
                         value={formData.password}
                         onChange={handleInputChange}
-                        placeholder="6자리 이상"
                         required
                         disabled={loading}
                         style={{ borderRadius: 'var(--radius-md)' }}
@@ -224,7 +247,6 @@ const Signup = () => {
                         name="confirmPassword"
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
-                        placeholder="비밀번호 재입력"
                         required
                         disabled={loading}
                         style={{ borderRadius: 'var(--radius-md)' }}
