@@ -2,8 +2,7 @@
 import { 
   createUserWithEmailAndPassword as firebaseCreateUser,
   signInWithEmailAndPassword as firebaseSignIn,
-  signOut as firebaseSignOut,
-  User 
+  signOut as firebaseSignOut
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
