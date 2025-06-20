@@ -2,9 +2,8 @@
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Signup from './pages/Signup';
-// If using Tailwind, you'd import tailwind here instead
-// import './index.css'; // Where tailwind directives are
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import './styles/globals.css';
 
 function App() {
   return (
