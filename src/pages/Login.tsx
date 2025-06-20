@@ -52,118 +52,67 @@ const Login = () => {
             <div className="card anniversary-card">
               <div className="card-body p-4 p-md-5">
                 <div className="text-center mb-4">
-                  {/* 광주365 로고 - 십자가 모양 + 365 + 컬러 도트 */}
-                  <div className="d-inline-flex align-items-center justify-content-center mb-3" style={{
-                    background: '#1565C0',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    width: '100px',
-                    height: '100px',
-                    borderRadius: '20px',
+                  {/* 광주365 로고 - 십자가 + 365 */}
+                  <div className="d-inline-block mb-3" style={{
                     position: 'relative',
-                    boxShadow: '0 8px 24px rgba(21, 101, 192, 0.3)',
-                    clipPath: 'polygon(35% 0%, 65% 0%, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0% 65%, 0% 35%, 35% 35%)'
+                    width: '90px',
+                    height: '90px'
                   }}>
+                    {/* 십자가 배경 */}
                     <div style={{
-                      position: 'relative',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      position: 'absolute',
+                      top: '0',
+                      left: '0',
                       width: '100%',
-                      height: '100%'
-                    }}>
-                      {/* 365 텍스트 */}
-                      <span style={{
-                        position: 'relative',
-                        zIndex: 10,
-                        fontSize: '1.5rem',
-                        fontWeight: 'bold',
-                        color: 'white'
-                      }}>365</span>
-                      
-                      {/* 주황색 원 (3 위) */}
-                      <div style={{
-                        position: 'absolute',
-                        top: '15px',
-                        left: '20px',
-                        width: '12px',
-                        height: '12px',
-                        borderRadius: '50%',
-                        background: '#FF8F00',
-                        border: '2px solid white'
-                      }} />
-                      
-                      {/* 녹색 원 (6 위) */}
-                      <div style={{
-                        position: 'absolute',
-                        top: '15px',
-                        right: '20px',
-                        width: '12px',
-                        height: '12px',
-                        borderRadius: '50%',
-                        background: '#7CB342',
-                        border: '2px solid white'
-                      }} />
-                      
-                      {/* 회색 원 (5 위) */}
-                      <div style={{
-                        position: 'absolute',
-                        bottom: '15px',
-                        right: '20px',
-                        width: '12px',
-                        height: '12px',
-                        borderRadius: '50%',
-                        background: '#E0E0E0',
-                        border: '2px solid white'
-                      }} />
-                      
-                      {/* 작은 웃는 얼굴들 */}
-                      <div style={{
-                        position: 'absolute',
-                        top: '12px',
-                        left: '17px',
-                        width: '18px',
-                        height: '18px',
-                        borderRadius: '50%',
-                        background: '#FF8F00',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '8px',
-                        color: 'white'
-                      }}>😊</div>
-                      
-                      <div style={{
-                        position: 'absolute',
-                        top: '12px',
-                        right: '17px',
-                        width: '18px',
-                        height: '18px',
-                        borderRadius: '50%',
-                        background: '#7CB342',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '8px',
-                        color: 'white'
-                      }}>😊</div>
-                      
-                      <div style={{
-                        position: 'absolute',
-                        bottom: '12px',
-                        right: '17px',
-                        width: '18px',
-                        height: '18px',
-                        borderRadius: '50%',
-                        background: '#E0E0E0',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '8px',
-                        color: '#666'
-                      }}>😊</div>
-                    </div>
+                      height: '100%',
+                      background: '#1565C0',
+                      borderRadius: '16px',
+                      boxShadow: '0 8px 24px rgba(21, 101, 192, 0.3)',
+                      clipPath: 'polygon(30% 0%, 70% 0%, 70% 30%, 100% 30%, 100% 70%, 70% 70%, 70% 100%, 30% 100%, 30% 70%, 0% 70%, 0% 30%, 30% 30%)'
+                    }} />
+                    
+                    {/* 365 텍스트 */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      color: 'white',
+                      fontSize: '1.4rem',
+                      fontWeight: 'bold',
+                      zIndex: 10
+                    }}>365</div>
+                    
+                    {/* 컬러 도트들 */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      left: '18px',
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '50%',
+                      background: '#FF8F00'
+                    }} />
+                    <div style={{
+                      position: 'absolute',
+                      top: '12px',
+                      right: '18px',
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '50%',
+                      background: '#7CB342'
+                    }} />
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '12px',
+                      right: '18px',
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '50%',
+                      background: '#E0E0E0'
+                    }} />
                   </div>
+                  
                   <h2 className="mb-2">로그인</h2>
                   <p className="text-muted mb-0">10주년 기념 프로젝트에 참여하세요</p>
                 </div>
@@ -175,7 +124,7 @@ const Login = () => {
                 )}
 
                 <form onSubmit={handleSubmit}>
-                  <div className="row g-4">
+                  <div className="row g-3">
                     <div className="col-12">
                       <label htmlFor="email" className="form-label fw-medium">
                         이메일
@@ -192,7 +141,7 @@ const Login = () => {
                         style={{ 
                           borderRadius: 'var(--radius-md)',
                           padding: '12px 16px',
-                          fontSize: '1.1rem'
+                          fontSize: '1rem'
                         }}
                       />
                     </div>
@@ -213,7 +162,7 @@ const Login = () => {
                         style={{ 
                           borderRadius: 'var(--radius-md)',
                           padding: '12px 16px',
-                          fontSize: '1.1rem'
+                          fontSize: '1rem'
                         }}
                       />
                     </div>
@@ -225,7 +174,6 @@ const Login = () => {
                       variant="primary"
                       className="w-100 btn-lg"
                       disabled={loading}
-                      style={{ padding: '12px 0', fontSize: '1.1rem' }}
                     >
                       {loading ? (
                         <div className="d-flex align-items-center justify-content-center">
@@ -239,7 +187,7 @@ const Login = () => {
                   </div>
                 </form>
 
-                <div className="text-center mt-4">
+                <div className="text-center mt-3">
                   <p className="mb-0 text-muted">
                     계정이 없으신가요?{' '}
                     <Link to="/signup" className="fw-medium" style={{ color: 'var(--primary-blue)' }}>
