@@ -2,28 +2,22 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
-import { getAnalytics } from 'firebase/analytics';
 
-// Firebase 구성 정보
+// Firebase 설정 (환경변수 또는 직접 설정)
 const firebaseConfig = {
-  apiKey: "AIzaSyCq_nY6VbFBh0UegagCrBjVyjbmvmXwEAA",
-  authDomain: "rh-10years-offering.firebaseapp.com",
-  projectId: "rh-10years-offering",
-  storageBucket: "rh-10years-offering.firebasestorage.app",
-  messagingSenderId: "556202607427",
-  appId: "1:556202607427:web:ca1434b83c54f0169525f6",
-  measurementId: "G-M3NVK5QTKM",
-  databaseURL: "https://rh-10years-offering-default-rtdb.asia-southeast1.firebasedatabase.app" // 추가
+  // 실제 프로젝트에서는 환경변수 사용 권장
+  apiKey: process.env.VITE_FIREBASE_API_KEY || "demo-api-key",
+  authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN || "demo-auth-domain",
+  projectId: process.env.VITE_FIREBASE_PROJECT_ID || "demo-project-id",
+  storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET || "demo-storage-bucket",
+  messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "demo-sender-id",
+  appId: process.env.VITE_FIREBASE_APP_ID || "demo-app-id"
 };
 
-// Firebase 초기화
+// Firebase 앱 초기화
 const app = initializeApp(firebaseConfig);
 
-// 서비스 초기화
+// Auth와 Firestore 인스턴스 내보내기
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const storage = getStorage(app);
-export const analytics = getAnalytics(app);
-
 export default app;

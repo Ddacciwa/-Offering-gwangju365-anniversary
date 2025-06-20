@@ -1,35 +1,38 @@
 // src/services/auth.ts
 import { 
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword as firebaseCreateUser,
+  signInWithEmailAndPassword as firebaseSignIn,
   signOut as firebaseSignOut,
-  GoogleAuthProvider,
-  signInWithPopup
+  User 
 } from 'firebase/auth';
-import { auth } from './firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from './firebase';
 
-// 이메일과 비밀번호로 회원가입
-export const registerWithEmail = async (email: string, password: string) => {
-  return createUserWithEmailAndPassword(auth, email, password);
+// 회원가입 함수
+export const createUserWithEmailAndPassword = async (
+  email: string, 
+  password: string, 
+  userData: { name: string; department: string; position?: string }
+) => {
+  const userCredential = await firebaseCreateUser(auth, email, password);
+  const user = userCredential.user;
+  
+  // Firestore에 사용자 정보 저장
+  await setDoc(doc(db, 'users', user.uid), {
+    ...userData,
+    email,
+    createdAt: new Date()
+  });
+  
+  return userCredential;
 };
 
-// 이메일과 비밀번호로 로그인
-export const signInWithEmail = async (email: string, password: string) => {
-  return signInWithEmailAndPassword(auth, email, password);
+// 로그인 함수
+export const signInWithEmailAndPassword = async (email: string, password: string) => {
+  return await firebaseSignIn(auth, email, password);
 };
 
-// Google로 로그인
-export const signInWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  return signInWithPopup(auth, provider);
-};
-
-// 로그아웃
+// 로그아웃 함수
 export const signOut = async () => {
-  return firebaseSignOut(auth);
-};
-
-// 현재 사용자 가져오기
-export const getCurrentUser = () => {
-  return auth.currentUser;
+  return await firebaseSignOut(auth);
 };
