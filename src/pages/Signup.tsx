@@ -79,9 +79,9 @@ const Signup = () => {
     <div className="min-vh-100 d-flex align-items-center py-4" style={{ background: 'var(--gradient-hero)' }}>
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div className="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5">
             <div className="card anniversary-card">
-              <div className="card-body p-4">
+              <div className="card-body p-4 p-md-5">
                 <div className="text-center mb-4">
                   {/* 광주365 로고 */}
                   <div className="d-inline-flex align-items-center justify-content-center mb-3" style={{
@@ -139,7 +139,7 @@ const Signup = () => {
                     </div>
                   </div>
                   <h2 className="mb-2">회원가입</h2>
-                  <p className="text-muted">10주년 기념 프로젝트에 참여하세요</p>
+                  <p className="text-muted mb-0">10주년 기념 프로젝트에 참여하세요</p>
                 </div>
 
                 {error && (
@@ -149,8 +149,8 @@ const Signup = () => {
                 )}
 
                 <form onSubmit={handleSubmit}>
-                  <div className="row">
-                    <div className="col-md-6 mb-3">
+                  <div className="row g-3">
+                    <div className="col-md-6">
                       <label htmlFor="name" className="form-label fw-medium">
                         이름 <span className="text-danger">*</span>
                       </label>
@@ -167,7 +167,7 @@ const Signup = () => {
                       />
                     </div>
 
-                    <div className="col-md-6 mb-3">
+                    <div className="col-md-6">
                       <label htmlFor="department" className="form-label fw-medium">
                         부서 <span className="text-danger">*</span>
                       </label>
@@ -183,43 +183,41 @@ const Signup = () => {
                         style={{ borderRadius: 'var(--radius-md)' }}
                       />
                     </div>
-                  </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="position" className="form-label fw-medium">
-                      직책/직위
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="position"
-                      name="position"
-                      value={formData.position}
-                      onChange={handleInputChange}
-                      disabled={loading}
-                      style={{ borderRadius: 'var(--radius-md)' }}
-                    />
-                  </div>
+                    <div className="col-12">
+                      <label htmlFor="position" className="form-label fw-medium">
+                        직책/직위
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="position"
+                        name="position"
+                        value={formData.position}
+                        onChange={handleInputChange}
+                        disabled={loading}
+                        style={{ borderRadius: 'var(--radius-md)' }}
+                      />
+                    </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="email" className="form-label fw-medium">
-                      이메일 <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      disabled={loading}
-                      style={{ borderRadius: 'var(--radius-md)' }}
-                    />
-                  </div>
+                    <div className="col-12">
+                      <label htmlFor="email" className="form-label fw-medium">
+                        이메일 <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        disabled={loading}
+                        style={{ borderRadius: 'var(--radius-md)' }}
+                      />
+                    </div>
 
-                  <div className="row">
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6">
                       <label htmlFor="password" className="form-label fw-medium">
                         비밀번호 <span className="text-danger">*</span>
                       </label>
@@ -236,7 +234,7 @@ const Signup = () => {
                       />
                     </div>
 
-                    <div className="col-md-6 mb-4">
+                    <div className="col-md-6">
                       <label htmlFor="confirmPassword" className="form-label fw-medium">
                         비밀번호 확인 <span className="text-danger">*</span>
                       </label>
@@ -254,24 +252,26 @@ const Signup = () => {
                     </div>
                   </div>
 
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    className="w-100 btn-lg mb-3"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <div className="d-flex align-items-center justify-content-center">
-                        <LoadingSpinner size="sm" color="white" className="me-2" />
-                        가입 중...
-                      </div>
-                    ) : (
-                      '🚀 회원가입 완료'
-                    )}
-                  </Button>
+                  <div className="mt-4">
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-100 btn-lg"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <div className="d-flex align-items-center justify-content-center">
+                          <LoadingSpinner size="sm" color="white" className="me-2" />
+                          가입 중...
+                        </div>
+                      ) : (
+                        '🚀 회원가입 완료'
+                      )}
+                    </Button>
+                  </div>
                 </form>
 
-                <div className="text-center">
+                <div className="text-center mt-3">
                   <p className="mb-0 text-muted">
                     이미 계정이 있으신가요?{' '}
                     <Link to="/login" className="fw-medium" style={{ color: 'var(--primary-blue)' }}>
