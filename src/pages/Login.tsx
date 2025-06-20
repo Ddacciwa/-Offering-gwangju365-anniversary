@@ -4,7 +4,6 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { signInWithEmailAndPassword } from '../services/auth';
 import Button from '../components/common/Button';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
-import logo from '../assets/logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -49,13 +48,17 @@ const Login = () => {
     <div className="min-vh-100 d-flex align-items-center py-4" style={{ background: 'var(--gradient-hero)' }}>
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5">
-            <div className="card anniversary-card">
-              <div className="card-body p-4 p-md-5">
-                <div className="text-center mb-4">
-                  <img src={logo} alt="365 로고" style={{ width: '120px', height: 'auto', marginBottom: '1.5rem' }} />
-                  <h2 className="mb-2">로그인</h2>
-                  <p className="text-muted mb-0">10주년 기념 프로젝트에 참여하세요</p>
+          <div className="col-12 col-sm-10 col-md-8 col-lg-7 col-xl-6">
+            <div className="card anniversary-card" style={{ 
+              minWidth: '400px',
+              maxWidth: '650px',
+              margin: '0 auto'
+            }}>
+              <div className="card-body" style={{ padding: '2.5rem 2rem' }}>
+                <div className="text-center mb-5">
+                  <img src="/logo.png" alt="365 로고" style={{ width: '140px', height: 'auto', marginBottom: '2rem' }} />
+                  <h2 className="mb-3" style={{ fontSize: '2rem', fontWeight: '600' }}>로그인</h2>
+                  <p className="text-muted mb-0" style={{ fontSize: '1.1rem' }}>10주년 기념 프로젝트에 참여하세요</p>
                 </div>
 
                 {error && (
@@ -65,48 +68,65 @@ const Login = () => {
                 )}
 
                 <form onSubmit={handleSubmit}>
-                  <div className="row g-3">
+                  <div className="row g-4">
                     <div className="col-12">
-                      <label htmlFor="email" className="form-label fw-medium">
+                      <label htmlFor="email" className="form-label fw-medium" style={{ fontSize: '1.1rem', marginBottom: '0.75rem' }}>
                         이메일 <span className="text-danger">*</span>
                       </label>
                       <input
                         type="email"
-                        className="form-control"
+                        className="form-control form-control-lg"
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="이메일을 입력하세요"
                         required
                         disabled={loading}
-                        style={{ borderRadius: 'var(--radius-md)' }}
+                        style={{ 
+                          borderRadius: '0.75rem',
+                          padding: '1rem 1.25rem',
+                          fontSize: '1rem',
+                          border: '2px solid #dee2e6',
+                          minHeight: '55px'
+                        }}
                       />
                     </div>
 
                     <div className="col-12">
-                      <label htmlFor="password" className="form-label fw-medium">
+                      <label htmlFor="password" className="form-label fw-medium" style={{ fontSize: '1.1rem', marginBottom: '0.75rem' }}>
                         비밀번호 <span className="text-danger">*</span>
                       </label>
                       <input
                         type="password"
-                        className="form-control"
+                        className="form-control form-control-lg"
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="비밀번호를 입력하세요"
                         required
                         disabled={loading}
-                        style={{ borderRadius: 'var(--radius-md)' }}
+                        style={{ 
+                          borderRadius: '0.75rem',
+                          padding: '1rem 1.25rem',
+                          fontSize: '1rem',
+                          border: '2px solid #dee2e6',
+                          minHeight: '55px'
+                        }}
                       />
                     </div>
                   </div>
 
-                  <div className="mt-4">
+                  <div className="mt-5">
                     <Button
                       type="submit"
                       variant="primary"
-                      className="w-100 btn-lg"
+                      className="w-100"
                       disabled={loading}
+                      style={{
+                        padding: '1rem 2rem',
+                        fontSize: '1.2rem',
+                        fontWeight: '600',
+                        borderRadius: '0.75rem',
+                        minHeight: '60px'
+                      }}
                     >
                       {loading ? (
                         <div className="d-flex align-items-center justify-content-center">
@@ -120,10 +140,10 @@ const Login = () => {
                   </div>
                 </form>
 
-                <div className="text-center mt-4">
-                  <p className="mb-0 text-muted">
+                <div className="text-center mt-5">
+                  <p className="mb-0 text-muted" style={{ fontSize: '1.1rem' }}>
                     계정이 없으신가요?{' '}
-                    <Link to="/signup" className="fw-medium" style={{ color: 'var(--primary-orange)' }}>
+                    <Link to="/signup" className="fw-medium" style={{ color: 'var(--primary-orange)', fontSize: '1.1rem' }}>
                       회원가입
                     </Link>
                   </p>

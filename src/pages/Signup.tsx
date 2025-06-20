@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from '../services/auth';
 import Button from '../components/common/Button';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
-import logo from '../assets/logo.png';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -84,7 +83,7 @@ const Signup = () => {
             <div className="card anniversary-card">
               <div className="card-body p-4 p-md-5">
                 <div className="text-center mb-4">
-                  <img src={logo} alt="365 로고" style={{ width: '120px', height: 'auto', marginBottom: '1.5rem' }} />
+                  <img src="/logo.png" alt="365 로고" style={{ width: '120px', height: 'auto', marginBottom: '1.5rem' }} />
                   <h2 className="mb-2">회원가입</h2>
                   <p className="text-muted mb-0">10주년 기념 프로젝트에 참여하세요</p>
                 </div>

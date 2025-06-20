@@ -49,7 +49,19 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
         <Link className="navbar-brand d-flex align-items-center" to="/">
-          <img src="/vite.svg" alt="병원 로고" style={{ height: '48px', width: '48px', marginRight: '16px', objectFit: 'contain', background: '#fff', borderRadius: '8px' }} />
+          <img 
+            src="/logo.png" 
+            alt="365 로고" 
+            style={{ 
+              height: '48px', 
+              width: '48px', 
+              marginRight: '16px', 
+              objectFit: 'contain', 
+              background: '#fff', 
+              borderRadius: '8px',
+              padding: '4px'
+            }} 
+          />
           광주365재활병원 10주년
         </Link>
         <button 
