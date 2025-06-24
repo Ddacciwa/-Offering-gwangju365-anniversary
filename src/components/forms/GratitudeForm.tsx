@@ -16,7 +16,6 @@ const GratitudeForm = () => {
   const [error, setError] = useState('');
   const [charCount, setCharCount] = useState(0);
   
-  // Max character count
   const MAX_CHARS = 1000;
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -33,13 +32,8 @@ const GratitudeForm = () => {
       return;
     }
     
-    if (toUserName.trim().length < 2) {
-      setError('감사를 전할 직원의 이름을 입력해주세요.');
-      return;
-    }
-    
-    if (message.trim().length < 20) {
-      setError('감사 메시지가 너무 짧습니다. 좀 더 구체적으로 작성해주세요.');
+    if (!toUserName.trim() || !message.trim()) {
+      setError('받는 사람과 감사 메시지를 모두 입력해주세요.');
       return;
     }
 
@@ -47,27 +41,36 @@ const GratitudeForm = () => {
     setError('');
 
     try {
-      // Firestore에서 이름 가져오기
+      // Firestore에서 사용자 정보 가져오기 (이름, 부서, 직책, 이메일)
       let fromUserName = '익명';
+      let fromUserDepartment = '미지정';
+      let fromUserPosition = '';
+      let fromUserEmail = user.email || '';
+      
       try {
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
-          const data = userDoc.data();
-          console.log('Firestore userDoc:', data);
-          fromUserName = data.name || '익명';
-          if (!data.name) {
-            console.log('userDoc에 name이 없음:', data);
-          }
+          const userData = userDoc.data();
+          console.log('Firestore userDoc:', userData);
+          fromUserName = userData.name || '익명';
+          fromUserDepartment = userData.department || '미지정';
+          fromUserPosition = userData.position || '';
+          fromUserEmail = userData.email || user.email || '';
         } else {
           console.log('Firestore userDoc 없음');
         }
-      } catch (e) { console.error('Firestore userDoc 에러', e); }
+      } catch (e) { 
+        console.error('Firestore userDoc 에러', e); 
+      }
 
       await addGratitude({
         fromUserId: user.uid,
         fromUserName,
-        toUserName,
-        message,
+        fromUserDepartment,
+        fromUserPosition, // 직책 추가
+        fromUserEmail,    // 이메일 추가
+        toUserName: toUserName.trim(),
+        message: message.trim(),
         createdAt: new Date() as any
       });
       
@@ -96,27 +99,31 @@ const GratitudeForm = () => {
       )}
       
       <div className="mb-3">
-        <label htmlFor="toUserName" className="form-label">감사를 전할 직원</label>
+        <label htmlFor="toUserName" className="form-label">
+          감사를 전하고 싶은 직원의 이름
+        </label>
         <input
           type="text"
-          className="form-control"
           id="toUserName"
+          className="form-control"
           value={toUserName}
           onChange={(e) => setToUserName(e.target.value)}
-          placeholder="감사를 전하고 싶은 직원의 이름을 입력해주세요"
+          placeholder="예: 김영희 간호사님"
           required
         />
       </div>
-      
+
       <div className="mb-3">
-        <label htmlFor="gratitudeMessage" className="form-label">감사 메시지</label>
+        <label htmlFor="gratitudeMessage" className="form-label">
+          감사 메시지
+        </label>
         <textarea
           id="gratitudeMessage"
           className="form-control"
-          rows={6}
+          rows={8}
           value={message}
           onChange={handleMessageChange}
-          placeholder="특별한 기억을 선사해주었거나 감사한 일이 있었던 직원에게 감사의 마음을 전하는 글을 작성해주세요."
+          placeholder="특별한 기억을 선사해주었거나 감사한 일이 있었던 직원에게 따뜻한 감사의 마음을 전해보세요."
           maxLength={MAX_CHARS}
           required
         />
@@ -138,7 +145,7 @@ const GratitudeForm = () => {
           variant="primary"
           isLoading={isSubmitting}
         >
-          감사 전하기
+          제출하기
         </Button>
       </div>
     </form>

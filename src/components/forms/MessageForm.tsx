@@ -15,10 +15,9 @@ const MessageForm = () => {
   const [error, setError] = useState('');
   const [charCount, setCharCount] = useState(0);
   
-  // Max character count
-  const MAX_CHARS = 100;
+  const MAX_CHARS = 500;
 
-  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newMessage = e.target.value;
     setMessage(newMessage);
     setCharCount(newMessage.length);
@@ -32,8 +31,8 @@ const MessageForm = () => {
       return;
     }
     
-    if (message.trim().length < 1) {
-      setError('메시지가 너무 짧습니다. 좀 더 의미 있는 메시지를 작성해주세요.');
+    if (!message.trim()) {
+      setError('축하 메시지를 입력해주세요.');
       return;
     }
 
@@ -41,26 +40,35 @@ const MessageForm = () => {
     setError('');
 
     try {
-      // Firestore에서 이름 가져오기
+      // Firestore에서 사용자 정보 가져오기 (이름, 부서, 직책, 이메일)
       let userName = '익명';
+      let userDepartment = '미지정';
+      let userPosition = '';
+      let userEmail = user.email || '';
+      
       try {
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
-          const data = userDoc.data();
-          console.log('Firestore userDoc:', data);
-          userName = data.name || '익명';
-          if (!data.name) {
-            console.log('userDoc에 name이 없음:', data);
-          }
+          const userData = userDoc.data();
+          console.log('Firestore userDoc:', userData);
+          userName = userData.name || '익명';
+          userDepartment = userData.department || '미지정';
+          userPosition = userData.position || '';
+          userEmail = userData.email || user.email || '';
         } else {
           console.log('Firestore userDoc 없음');
         }
-      } catch (e) { console.error('Firestore userDoc 에러', e); }
+      } catch (e) { 
+        console.error('Firestore userDoc 에러', e); 
+      }
 
       await addMessage({
         userId: user.uid,
         userName,
-        message,
+        userDepartment,
+        userPosition, // 직책 추가
+        userEmail,    // 이메일 추가
+        message: message.trim(),
         createdAt: new Date() as any
       });
       
@@ -79,18 +87,6 @@ const MessageForm = () => {
     }
   };
 
-  // A collection of fonts for the preview
-  const previewFonts = [
-    'serif',
-    'sans-serif',
-    'monospace',
-    'cursive',
-    'fantasy'
-  ];
-  
-  // Randomly select a font for the message preview
-  const randomFont = previewFonts[Math.floor(Math.random() * previewFonts.length)];
-
   return (
     <form onSubmit={handleSubmit}>
       {error && (
@@ -100,14 +96,16 @@ const MessageForm = () => {
       )}
       
       <div className="mb-3">
-        <label htmlFor="celebrationMessage" className="form-label">축하 메시지</label>
-        <input
-          type="text"
-          className="form-control"
+        <label htmlFor="celebrationMessage" className="form-label">
+          10주년 축하 메시지
+        </label>
+        <textarea
           id="celebrationMessage"
+          className="form-control"
+          rows={6}
           value={message}
           onChange={handleMessageChange}
-          placeholder="10주년을 맞이한 광주365재활병원에 축하 메시지를 남겨주세요"
+          placeholder="광주365재활병원의 개원 10주년을 축하하는 따뜻한 메시지를 남겨주세요. 여러분의 메시지는 캘리그래피 스타일로 10주년 기념 자료에 수록됩니다."
           maxLength={MAX_CHARS}
           required
         />
@@ -115,30 +113,12 @@ const MessageForm = () => {
           <small>{charCount} / {MAX_CHARS} 자</small>
         </div>
       </div>
-      
-      {message.trim() && (
-        <div className="mb-4">
-          <label className="form-label">미리보기</label>
-          <div 
-            className="p-4 border rounded bg-light text-center"
-            style={{ 
-              fontFamily: randomFont, 
-              fontSize: '1.5rem',
-              minHeight: '100px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            {message}
-          </div>
-          <div className="text-center mt-2">
-            <small className="text-muted">
-              * 실제 캘리그래피 스타일은 제출 후 관리자가 적용합니다.
-            </small>
-          </div>
-        </div>
-      )}
+
+      <div className="alert alert-info">
+        <small>
+          💡 <strong>팁:</strong> 짧고 인상적인 메시지가 캘리그래피로 표현될 때 더욱 아름답게 보입니다.
+        </small>
+      </div>
       
       <div className="d-flex justify-content-between">
         <Button 
@@ -153,7 +133,7 @@ const MessageForm = () => {
           variant="primary"
           isLoading={isSubmitting}
         >
-          메시지 남기기
+          제출하기
         </Button>
       </div>
     </form>

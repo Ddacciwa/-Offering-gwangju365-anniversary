@@ -12,12 +12,11 @@ const EpisodeForm = () => {
   const { user } = useAuth();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [isHappy, setIsHappy] = useState(true); // Default: happy episode
+  const [episodeType, setEpisodeType] = useState<'happy' | 'touching'>('happy');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [charCount, setCharCount] = useState(0);
   
-  // Max character count
   const MAX_CHARS = 2000;
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,37 +33,46 @@ const EpisodeForm = () => {
       return;
     }
     
-    if (title.trim().length < 5) {
-      setError('제목이 너무 짧습니다. 좀 더 구체적으로 작성해주세요.');
+    if (!title.trim() || !content.trim()) {
+      setError('제목과 내용을 모두 입력해주세요.');
       return;
     }
-    
+
     setIsSubmitting(true);
     setError('');
 
     try {
-      // Firestore에서 이름 가져오기
+      // Firestore에서 사용자 정보 가져오기 (이름, 부서, 직책, 이메일)
       let userName = '익명';
+      let userDepartment = '미지정';
+      let userPosition = '';
+      let userEmail = user.email || '';
+      
       try {
         const userDoc = await getDoc(doc(db, 'users', user.uid));
         if (userDoc.exists()) {
-          const data = userDoc.data();
-          console.log('Firestore userDoc:', data);
-          userName = data.name || '익명';
-          if (!data.name) {
-            console.log('userDoc에 name이 없음:', data);
-          }
+          const userData = userDoc.data();
+          console.log('Firestore userDoc:', userData);
+          userName = userData.name || '익명';
+          userDepartment = userData.department || '미지정';
+          userPosition = userData.position || '';
+          userEmail = userData.email || user.email || '';
         } else {
           console.log('Firestore userDoc 없음');
         }
-      } catch (e) { console.error('Firestore userDoc 에러', e); }
+      } catch (e) { 
+        console.error('Firestore userDoc 에러', e); 
+      }
 
       await addEpisode({
         userId: user.uid,
         userName,
+        userDepartment,
+        userPosition, // 직책 추가
+        userEmail,    // 이메일 추가
         title,
         content,
-        isHappy,
+        isHappy: episodeType === 'happy',
         createdAt: new Date() as any
       });
       
@@ -93,59 +101,69 @@ const EpisodeForm = () => {
       )}
       
       <div className="mb-3">
-        <label className="form-label">에피소드 유형</label>
-        <div className="d-flex">
-          <div className="form-check me-4">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="episodeType"
-              id="happyEpisode"
-              checked={isHappy}
-              onChange={() => setIsHappy(true)}
-            />
-            <label className="form-check-label" htmlFor="happyEpisode">
-              웃긴 에피소드
-            </label>
+        <label className="form-label fw-medium">에피소드 종류</label>
+        <div className="row g-3">
+          <div className="col-md-6">
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="episodeType"
+                id="happy"
+                value="happy"
+                checked={episodeType === 'happy'}
+                onChange={(e) => setEpisodeType(e.target.value as 'happy')}
+              />
+              <label className="form-check-label" htmlFor="happy">
+                😄 재미있는 에피소드
+              </label>
+            </div>
           </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="episodeType"
-              id="touchingEpisode"
-              checked={!isHappy}
-              onChange={() => setIsHappy(false)}
-            />
-            <label className="form-check-label" htmlFor="touchingEpisode">
-              감동적인 에피소드
-            </label>
+          <div className="col-md-6">
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="radio"
+                name="episodeType"
+                id="touching"
+                value="touching"
+                checked={episodeType === 'touching'}
+                onChange={(e) => setEpisodeType(e.target.value as 'touching')}
+              />
+              <label className="form-check-label" htmlFor="touching">
+                💝 감동적인 에피소드
+              </label>
+            </div>
           </div>
         </div>
       </div>
-      
+
       <div className="mb-3">
-        <label htmlFor="episodeTitle" className="form-label">제목</label>
+        <label htmlFor="episodeTitle" className="form-label">
+          에피소드 제목
+        </label>
         <input
           type="text"
-          className="form-control"
           id="episodeTitle"
+          className="form-control"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="에피소드 제목을 입력해주세요"
+          placeholder="에피소드의 제목을 입력해주세요"
           required
         />
       </div>
       
       <div className="mb-3">
-        <label htmlFor="episodeContent" className="form-label">내용</label>
+        <label htmlFor="episodeContent" className="form-label">
+          에피소드 내용
+        </label>
         <textarea
           id="episodeContent"
           className="form-control"
-          rows={8}
+          rows={10}
           value={content}
           onChange={handleContentChange}
-          placeholder="본원에서 근무하며 겪은 가장 감동적이거나 웃긴 에피소드를 자유롭게 작성해주세요."
+          placeholder="기억에 남는 에피소드를 상세히 작성해주세요."
           maxLength={MAX_CHARS}
           required
         />

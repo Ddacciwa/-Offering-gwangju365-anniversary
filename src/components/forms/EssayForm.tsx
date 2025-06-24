@@ -1,11 +1,9 @@
-// src/components/forms/EssayForm.tsx
+// src/components/forms/EssayForm.tsx - Realtime Database 버전
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { addEssay } from '../../services/database';
+import { addEssay, getUserData } from '../../services/database';
 import Button from '../common/Button';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../services/firebase';
 
 const EssayForm = () => {
   const navigate = useNavigate();
@@ -15,7 +13,6 @@ const EssayForm = () => {
   const [error, setError] = useState('');
   const [charCount, setCharCount] = useState(0);
   
-  // Max character count (roughly A4 0.5-1p)
   const MAX_CHARS = 2000;
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -36,27 +33,35 @@ const EssayForm = () => {
     setError('');
 
     try {
-      // Firestore에서 이름 가져오기
+      // Realtime Database에서 사용자 정보 가져오기
       let userName = '익명';
+      let userDepartment = '미지정';
+      let userPosition = '';
+      let userEmail = user.email || '';
+      
       try {
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          console.log('Firestore userDoc:', data);
-          userName = data.name || '익명';
-          if (!data.name) {
-            console.log('userDoc에 name이 없음:', data);
-          }
+        const userData = await getUserData(user.uid);
+        if (userData) {
+          console.log('Realtime Database userData:', userData);
+          userName = userData.name || '익명';
+          userDepartment = userData.department || '미지정';
+          userPosition = userData.position || '';
+          userEmail = userData.email || user.email || '';
         } else {
-          console.log('Firestore userDoc 없음');
+          console.log('Realtime Database userData 없음');
         }
-      } catch (e) { console.error('Firestore userDoc 에러', e); }
+      } catch (e) { 
+        console.error('Realtime Database userData 에러', e); 
+      }
 
       await addEssay({
         userId: user.uid,
         userName,
+        userDepartment,
+        userPosition,
+        userEmail,
         content,
-        createdAt: new Date() as any
+        createdAt: new Date().toISOString()
       });
       
       // Reset form after successful submission
