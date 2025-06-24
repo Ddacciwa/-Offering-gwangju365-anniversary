@@ -8,7 +8,6 @@ import Essay from './pages/Essay';
 import Episodes from './pages/Episodes';
 import Gratitude from './pages/Gratitude';
 import DreamHospital from './pages/DreamHospital';
-import Messages from './pages/Messages';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
@@ -66,14 +65,6 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <DreamHospital />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/messages',
-    element: (
-      <ProtectedRoute>
-        <Messages />
       </ProtectedRoute>
     ),
   },
