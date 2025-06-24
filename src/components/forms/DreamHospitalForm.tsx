@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { addDream } from '../../services/database';
 import Button from '../common/Button';
+import ImageUpload from '../ui/ImageUpload';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 
@@ -12,7 +13,6 @@ const DreamHospitalForm = () => {
   const { user } = useAuth();
   const [vision, setVision] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [error, setError] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [charCount, setCharCount] = useState(0);
@@ -26,38 +26,15 @@ const DreamHospitalForm = () => {
     setCharCount(newVision.length);
   };
 
-  // Placeholder function for AI image generation
-  // In a real implementation, this would call an AI image generation API
-  const generateImage = async () => {
-    if (vision.trim().length < 1) {
-      setError('비전이 너무 짧습니다. 좀 더 구체적으로 작성해주세요.');
-      return;
-    }
+  // 이미지 업로드 완료 핸들러
+  const handleImageUploaded = (url: string) => {
+    setImageUrl(url);
+    setError(''); // 이미지 업로드 성공 시 에러 클리어
+  };
 
-    setIsGeneratingImage(true);
-    setError('');
-
-    try {
-      // This is a placeholder - you would replace this with an actual API call
-      // For now, we'll just use a placeholder image
-      const placeholderImages = [
-        'https://via.placeholder.com/500x300?text=미래+병원+이미지',
-        'https://via.placeholder.com/500x300?text=건강한+미래',
-        'https://via.placeholder.com/500x300?text=환자+중심+병원'
-      ];
-      
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Select a random placeholder image
-      const randomImage = placeholderImages[Math.floor(Math.random() * placeholderImages.length)];
-      setImageUrl(randomImage);
-    } catch (error) {
-      console.error('Error generating image:', error);
-      setError('이미지 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
-    } finally {
-      setIsGeneratingImage(false);
-    }
+  // 이미지 제거 핸들러
+  const handleImageRemoved = () => {
+    setImageUrl('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -91,13 +68,15 @@ const DreamHospitalForm = () => {
         } else {
           console.log('Firestore userDoc 없음');
         }
-      } catch (e) { console.error('Firestore userDoc 에러', e); }
+      } catch (e) { 
+        console.error('Firestore userDoc 에러', e); 
+      }
 
       await addDream({
         userId: user.uid,
         userName,
         vision,
-        imageUrl, // This can be empty if no image was generated
+        imageUrl, // 업로드된 이미지 URL (없으면 빈 문자열)
         createdAt: new Date() as any
       });
       
@@ -125,58 +104,61 @@ const DreamHospitalForm = () => {
         </div>
       )}
       
-      <div className="mb-3">
-        <label htmlFor="hospitalVision" className="form-label">10년 후 우리 병원의 모습</label>
+      <div className="mb-4">
+        <label htmlFor="hospitalVision" className="form-label fw-medium" style={{ fontSize: '1.1rem' }}>
+          10년 후 우리 병원의 모습 <span className="text-danger">*</span>
+        </label>
         <input
           type="text"
-          className="form-control"
+          className="form-control form-control-lg"
           id="hospitalVision"
           value={vision}
           onChange={handleVisionChange}
           placeholder="한 줄로 10년 후 광주365재활병원의 모습을 상상해보세요"
           maxLength={MAX_CHARS}
           required
+          style={{ 
+            borderRadius: '0.75rem',
+            padding: '1rem 1.25rem',
+            fontSize: '1rem',
+            border: '2px solid #dee2e6',
+            minHeight: '55px'
+          }}
         />
         <div className="mt-2 text-end text-muted">
           <small>{charCount} / {MAX_CHARS} 자</small>
         </div>
       </div>
       
-      <div className="mb-3">
-        <Button
-          type="button"
-          variant="outline-primary"
-          onClick={generateImage}
-          isLoading={isGeneratingImage}
-          disabled={vision.trim().length < 1}
+      <div className="mb-4">
+        <label className="form-label fw-medium" style={{ fontSize: '1.1rem' }}>
+          미래 병원 이미지 (선택사항)
+        </label>
+        <ImageUpload
+          onImageUploaded={handleImageUploaded}
+          onImageRemoved={handleImageRemoved}
+          currentImageUrl={imageUrl}
+          folder="dream-hospitals"
+          maxSizeMB={10}
           className="w-100"
-        >
-          AI 이미지 생성하기
-        </Button>
-        <small className="form-text text-muted">
-          입력한 비전을 바탕으로, AI가 상상한 미래 병원의 이미지를 생성합니다.
+        />
+        <small className="form-text text-muted mt-2">
+          10년 후 우리 병원의 모습을 상상한 이미지를 업로드해보세요. (선택사항)<br />
+          <span className="text-info">💡 AI 이미지 생성 도구(ChatGPT, DALL-E, Midjourney 등)를 활용하여 그림을 만들어 업로드하셔도 좋습니다.</span>
         </small>
       </div>
       
-      {imageUrl && (
-        <div className="mb-3 text-center">
-          <img
-            src={imageUrl}
-            alt="AI가 생성한 미래 병원 이미지"
-            className="img-fluid rounded"
-            style={{ maxHeight: '300px' }}
-          />
-          <p className="mt-2">
-            <small className="text-muted">AI가 생성한 이미지입니다.</small>
-          </p>
-        </div>
-      )}
-      
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-between gap-3 mt-5">
         <Button 
           type="button"
           variant="outline-secondary"
           onClick={() => navigate('/')}
+          style={{
+            padding: '0.75rem 2rem',
+            fontSize: '1.1rem',
+            borderRadius: '0.75rem',
+            flex: '1'
+          }}
         >
           취소
         </Button>
@@ -184,6 +166,12 @@ const DreamHospitalForm = () => {
           type="submit"
           variant="primary"
           isLoading={isSubmitting}
+          style={{
+            padding: '0.75rem 2rem',
+            fontSize: '1.1rem',
+            borderRadius: '0.75rem',
+            flex: '2'
+          }}
         >
           제출하기
         </Button>

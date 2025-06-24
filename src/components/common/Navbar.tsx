@@ -76,41 +76,57 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto">
+          <ul className="navbar-nav me-auto" style={{ gap: '0.5rem' }}>
             <li className="nav-item">
-              <Link className="nav-link" to="/essay">나에게 병원이란?</Link>
+              <Link className="nav-link" to="/essay" style={{ padding: '0.5rem 0.75rem', whiteSpace: 'nowrap' }}>
+                나에게 병원이란?
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/episodes">병원 이모저모</Link>
+              <Link className="nav-link" to="/episodes" style={{ padding: '0.5rem 0.75rem', whiteSpace: 'nowrap' }}>
+                병원 이모저모
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/gratitude">감사 전하기</Link>
+              <Link className="nav-link" to="/gratitude" style={{ padding: '0.5rem 0.75rem', whiteSpace: 'nowrap' }}>
+                감사 전하기
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/dream-hospital">꿈꾸는 병원</Link>
+              <Link className="nav-link" to="/dream-hospital" style={{ padding: '0.5rem 0.75rem', whiteSpace: 'nowrap' }}>
+                꿈꾸는 병원
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/messages">축하 메시지</Link>
+              <Link className="nav-link" to="/messages" style={{ padding: '0.5rem 0.75rem', whiteSpace: 'nowrap' }}>
+                축하 메시지
+              </Link>
             </li>
           </ul>
           <div className="d-flex align-items-center">
             {user && (
-              <span className="me-3 fw-bold">
+              <span 
+                className="me-2 text-muted"
+                style={{ 
+                  fontSize: '0.8rem',
+                  whiteSpace: 'nowrap'
+                }}
+              >
                 {userNameLoading
-                  ? '이름 불러오는 중...'
+                  ? '로딩중...'
                   : userName
                     ? `${userName}님 환영합니다.`
                     : user?.email
                       ? `${user.email}님 환영합니다.`
-                      : '이름을 불러올 수 없습니다.'}
+                      : '환영합니다.'}
               </span>
             )}
             {user ? (
-              <button className="btn btn-outline-danger" onClick={handleLogout}>
+              <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
                 로그아웃
               </button>
             ) : (
-              <Link className="btn btn-outline-primary" to="/login">
+              <Link className="btn btn-outline-primary btn-sm" to="/login">
                 로그인
               </Link>
             )}

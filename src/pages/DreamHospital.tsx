@@ -11,7 +11,10 @@ const DreamHospital = () => {
             <div className="card-body">
               <p className="card-text mb-4">
                 한 줄로 정리한 10년 후 우리 병원의 미래 모습을 작성해주세요.
-                여러분의 비전을 바탕으로 AI 이미지를 생성할 수 있습니다.
+                AI 도구로 
+                미래 병원 이미지를 생성하여 업로드하시면 더욱 창의적인 비전을 표현할 수 있습니다.
+                <br />
+                <span className="text-primary fw-bold">BEST 사연에 채택되신 분에게는 소정의 상품을 드립니다.</span>
               </p>
               <DreamHospitalForm />
             </div>

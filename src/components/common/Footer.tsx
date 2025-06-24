@@ -14,11 +14,11 @@ const Footer = () => {
                   src="/logo.png" 
                   alt="365 로고" 
                   style={{ 
-                    width: '48px', 
-                    height: '48px',
-                    borderRadius: '12px',
+                    width: '55px', 
+                    height: '55px',
+                    borderRadius: '20px',
                     background: 'white',
-                    padding: '4px'
+                    padding: '5px'
                   }} 
                 />
               </div>

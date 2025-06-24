@@ -16,6 +16,7 @@ export interface Essay {
   id?: string;
   userId: string;
   userName: string;
+  userDepartment: string; // 부서 정보 추가
   content: string;
   createdAt: number;
 }
@@ -25,6 +26,7 @@ export interface Episode {
   id?: string;
   userId: string;
   userName: string;
+  userDepartment: string; // 부서 정보 추가
   title: string;
   content: string;
   isHappy: boolean; // 웃긴 에피소드는 true, 감동적인 에피소드는 false
@@ -36,6 +38,7 @@ export interface Gratitude {
   id?: string;
   fromUserId: string;
   fromUserName: string;
+  fromUserDepartment: string; // 발신자 부서 정보 추가
   toUserName: string;
   message: string;
   createdAt: number;
@@ -46,6 +49,7 @@ export interface Dream {
   id?: string;
   userId: string;
   userName: string;
+  userDepartment: string; // 부서 정보 추가
   vision: string; // 10년 후 병원 모습을 한 줄로 정리
   imageUrl?: string; // AI가 생성한 이미지 URL (선택적)
   createdAt: number;
@@ -56,6 +60,7 @@ export interface Message {
   id?: string;
   userId: string;
   userName: string;
+  userDepartment: string; // 부서 정보 추가
   message: string;
   createdAt: number;
 }
