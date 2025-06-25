@@ -75,9 +75,12 @@ const DreamHospitalForm = () => {
       await addDream({
         userId: user.uid,
         userName,
+        userDepartment: '',
+        userPosition: '',
+        userEmail: '',
         vision,
-        imageUrl, // 업로드된 이미지 URL (없으면 빈 문자열)
-        createdAt: new Date() as any
+        imageUrl,
+        createdAt: new Date().toISOString()
       });
       
       // Reset form after successful submission

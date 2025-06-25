@@ -1,6 +1,6 @@
 // src/components/common/Button.tsx
 import React from 'react';
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 interface ButtonProps {
   children: ReactNode;
@@ -9,6 +9,7 @@ interface ButtonProps {
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
+  isLoading?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -20,6 +21,7 @@ const Button = ({
   onClick, 
   type = 'button', 
   disabled = false, 
+  isLoading = false,
   className = '',
   style
 }: ButtonProps) => {

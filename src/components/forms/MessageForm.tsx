@@ -2,10 +2,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { addMessage } from '../../services/database';
+import { addMessage, getUserData } from '../../services/database';
 import Button from '../common/Button';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../services/firebase';
 
 const MessageForm = () => {
   const navigate = useNavigate();
@@ -40,26 +38,22 @@ const MessageForm = () => {
     setError('');
 
     try {
-      // Firestore에서 사용자 정보 가져오기 (이름, 부서, 직책, 이메일)
+      // Realtime Database에서 사용자 정보 가져오기 (이름, 부서, 직책, 이메일)
       let userName = '익명';
       let userDepartment = '미지정';
       let userPosition = '';
       let userEmail = user.email || '';
       
       try {
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          console.log('Firestore userDoc:', userData);
+        const userData = await getUserData(user.uid);
+        if (userData) {
           userName = userData.name || '익명';
           userDepartment = userData.department || '미지정';
           userPosition = userData.position || '';
           userEmail = userData.email || user.email || '';
-        } else {
-          console.log('Firestore userDoc 없음');
         }
       } catch (e) { 
-        console.error('Firestore userDoc 에러', e); 
+        console.error('getUserData 에러', e); 
       }
 
       await addMessage({
