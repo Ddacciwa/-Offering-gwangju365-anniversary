@@ -2,11 +2,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { addDream } from '../../services/database';
+import { addDream, getUserData } from '../../services/database';
 import Button from '../common/Button';
 import ImageUpload from '../ui/ImageUpload';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../services/firebase';
 
 const DreamHospitalForm = () => {
   const navigate = useNavigate();
@@ -54,30 +52,29 @@ const DreamHospitalForm = () => {
     setError('');
 
     try {
-      // Firestore에서 이름 가져오기
+      // Realtime Database에서 사용자 정보 가져오기
       let userName = '익명';
+      let userDepartment = '미지정';
+      let userPosition = '';
+      let userEmail = user.email || '';
       try {
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          console.log('Firestore userDoc:', data);
-          userName = data.name || '익명';
-          if (!data.name) {
-            console.log('userDoc에 name이 없음:', data);
-          }
-        } else {
-          console.log('Firestore userDoc 없음');
+        const userData = await getUserData(user.uid);
+        if (userData) {
+          userName = userData.name || '익명';
+          userDepartment = userData.department || '미지정';
+          userPosition = userData.position || '';
+          userEmail = userData.email || user.email || '';
         }
       } catch (e) { 
-        console.error('Firestore userDoc 에러', e); 
+        console.error('getUserData 에러', e); 
       }
 
       await addDream({
         userId: user.uid,
         userName,
-        userDepartment: '',
-        userPosition: '',
-        userEmail: '',
+        userDepartment,
+        userPosition,
+        userEmail,
         vision,
         imageUrl,
         createdAt: new Date().toISOString()
