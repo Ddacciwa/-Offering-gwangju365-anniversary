@@ -62,7 +62,6 @@ const Home = () => {
   return (
     <PageLayout 
       title="광주365재활병원 10주년 기념 프로젝트" 
-      subtitle="함께 걸어온 10년, 새로운 시작을 위한 특별한 여정"
       showHero
     >
       {/* Welcome Section */}

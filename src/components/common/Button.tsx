@@ -49,11 +49,11 @@ const Button = ({
     <button
       type={type}
       className={getButtonClass()}
+      disabled={disabled || isLoading}
       onClick={onClick}
-      disabled={disabled}
       style={style}
     >
-      {children}
+      {isLoading ? 'Loading...' : children}
     </button>
   );
 };

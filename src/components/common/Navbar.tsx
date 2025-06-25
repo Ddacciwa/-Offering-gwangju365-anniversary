@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { signOut } from '../../services/auth';
 import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../services/firebase';
+import { getUserData } from '../../services/database';
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -17,10 +16,9 @@ const Navbar = () => {
       if (user) {
         setUserNameLoading(true);
         try {
-          const docRef = doc(db, 'users', user.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setUserName(docSnap.data().name);
+          const userData = await getUserData(user.uid);
+          if (userData) {
+            setUserName(userData.name);
           } else {
             setUserName(null);
           }

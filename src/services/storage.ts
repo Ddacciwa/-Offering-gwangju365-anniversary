@@ -1,6 +1,6 @@
 // src/services/storage.ts
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { storage, auth } from './firebase';
+import { storage } from './firebase';
 
 /**
  * 이미지 파일을 Firebase Storage에 업로드

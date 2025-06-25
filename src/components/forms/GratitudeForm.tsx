@@ -54,9 +54,11 @@ const GratitudeForm = () => {
         fromUserId: user.uid,
         fromUserName,
         fromUserDepartment,
+        fromUserPosition: '',
+        fromUserEmail: user.email || '',
         toUserName: toUserName.trim(),
         message: message.trim(),
-        createdAt: new Date() as any
+        createdAt: new Date().toISOString()
       });
       
       // Reset form after successful submission
